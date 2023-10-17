@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Phasik Livestream</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link rel="stylesheet" href="">
+  <style>
+    /* Font from: https://github.com/jonz94/Sarasa-Gothic-Nerd-Fonts */
+    @font-face {
+      font-family: 'Sarasa Mono CL Nerd Font';
+      src: url('assets/fonts/sarasa/sarasa-mono-cl-regular-nerd-font.woff2') format('woff2'),
+        url('assets/fonts/sarasa/sarasa-mono-cl-regular-nerd-font.woff') format('woff');
+    }
+
+    @font-face {
+      font-family: 'Sarasa Mono CL Nerd Font';
+      src: url('assets/fonts/sarasa/sarasa-mono-cl-bold-nerd-font.woff2') format('woff2'),
+        url('assets/fonts/sarasa/sarasa-mono-cl-bold-nerd-font.woff') format('woff');
+      font-weight: bold;
+    }
+
+    @font-face {
+      font-family: 'Sarasa Mono CL Nerd Font';
+      src: url('assets/fonts/sarasa/sarasa-mono-cl-italic-nerd-font.woff2') format('woff2'),
+        url('assets/fonts/sarasa/sarasa-mono-cl-italic-nerd-font.woff') format('woff');
+      font-style: italic;
+    }
+
+    @font-face {
+      font-family: 'Sarasa Mono CL Nerd Font';
+      src: url('assets/fonts/sarasa/sarasa-mono-cl-bolditalic-nerd-font.woff2') format('woff2'),
+        url('assets/fonts/sarasa/sarasa-mono-cl-bolditalic-nerd-font.woff') format('woff');
+      font-weight: bold;
+      font-style: italic;
+    }
+
+    body {
+      font-family: 'Sarasa Mono CL Nerd Font';
+      background-color: #181818;
+      color: #adbac7;
+    }
+
+    #navlinks > a > div.navlink {
+      display: inline-block;
+      transition: all 0.5s;
+    }
+
+    /* https://www.codewithrandom.com/2022/11/28/css-text-hover-effects/ */
+    #navlinks > a > div.navlink:hover {
+      /* Debug link clickbox
+      border: 1px solid magenta; */
+      text-shadow: 1px 1px 0px #07bccc,
+        1.5px 1.5px 0px #e601c0,
+        2px 2px 0px #e9019a,
+        2.5px 2.5px 0px #f40468,
+        4.5px 4.5px 10px #482896;
+    }
+
+    /* Debug link clickbox
+    #navlinks > a {
+      border: 1px solid cyan;
+    } */
+
+    #navlinks > a:link    { text-decoration: none; }
+    #navlinks > a:visited { text-decoration: none; }
+    #navlinks > a:hover { text-decoration: none; }
+    #navlinks > a:active { text-decoration: none; }
+
+    /* Brand Colors: https://brandcolors.net/ */
+    div#twitch-link {
+      color: #9146ff;
+    }
+    div#youtube-link {
+      color: #ff0000;
+    }
+    div#mixcloud-link {
+      color: #52aad8;
+    }
+    div#facebook-link {
+      color: #1877f2;
+    }
+    div#soundcloud-link {
+      color: #ff8800;
+    }
+    div#bandcamp-link {
+      color: #629aa9;
+    }
+    div#patreon-link {
+      color: #f96854;
+    }
+    div#paypal-link {
+      color: #009cde;
+    }
+    div#github-sponsors-link {
+      color: #c96198;
+    }
+    span.github-logo {
+      color: #adbac7;
+    }
+  </style>
+  <!-- Load the Twitch embed script -->
+  <script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+
+</head>
+
+<body>
+  <!-- Reference: https://dev.twitch.tv/docs/embed/everything/ -->
+  <div id="twitch-embed"></div>
+  <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
+  <script type="text/javascript">
+    const embed = new Twitch.Embed("twitch-embed", {
+      width: "100%",
+      channel: "phasik",
+      // only needed if your site is also embedded on embed.example.com and othersite.example.com
+      parent: ["phasik.com", "www.phasik.com", "phasik.tv", "www.phasik.tv", "phasiktv.tv", "www.phasiktv.tv"]
+    });
+  </script>
+
+  <nav id="navlinks">
+    <!-- Video Stream Links -->
+    <span>  -></span>
+    <a href="https://www.twitch.tv/phasik">
+      <div id="twitch-link" class="navlink"> </div>
+    </a>
+    <a href="https://www.youtube.com/channel/UCxDL76rX_uyVx0CUm5_R-Ng">
+      <div id="youtube-link" class="navlink">󰗃 </div>
+    </a>
+    <a href="https://www.mixcloud.com/Phasik/">
+      <div id="mixcloud-link" class="navlink"> </div>
+    </a>
+    <a href="https://www.facebook.com/djPhasik/">
+      <div id="facebook-link" class="navlink"> </div>
+    </a>
+    <!-- Audio Stream Links -->
+    <br/><span>  -></span>
+    <a href="https://www.mixcloud.com/Phasik/">
+      <div id="mixcloud-link" class="navlink"> </div>
+    </a>
+    <a href="https://soundcloud.com/phasik">
+      <div id="soundcloud-link" class="navlink">󰓀 </div>
+    </a>
+    <a href="https://phasik.bandcamp.com/">
+      <div id="bandcamp-link" class="navlink"> </div>
+    </a>
+    <!-- Sponsor Links -->
+    <br/><span>󰩖  -></span>
+    <a href="https://www.patreon.com/phasik">
+      <div id="patreon-link" class="navlink">󰢂 </div>
+    </a>
+    <a href="https://paypal.me/PhasikSound">
+      <div id="paypal-link" class="navlink"> </div>
+    </a>
+    <a href="https://github.com/sponsors/trinitronx">
+      <div id="github-sponsors-link" class="navlink"><span class="github-logo">󰊤 </span>󱢠 </div>
+    </a>
+  </nav>
+</body>
+
+</html>
