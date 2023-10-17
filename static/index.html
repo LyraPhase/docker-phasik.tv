@@ -44,6 +44,7 @@
 
     #navlinks > a > div.navlink {
       display: inline-block;
+      font-size: xx-large;
       transition: all 0.5s;
     }
 
@@ -99,6 +100,34 @@
     span.github-logo {
       color: #adbac7;
     }
+
+    /* Responsive Twitch embed
+      ...Such a janky hack 🤦
+      References:
+        - https://www.smartdigitalsolutions.co.uk/embed-twitch-cam-responsive-full-width-fullscreen-website
+        - https://philna.sh/blog/2020/03/23/responsive-twitch-embed/
+    */
+
+    @media screen and (min-width: 850px) {
+      .twitch {
+        position: relative;
+      }
+
+      .twitch .twitch-video {
+        width: 75%;
+        padding-top: 42.1875%;
+      }
+
+      .twitch .twitch-chat {
+        width: 25%;
+        height: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+      }
+    }
+
   </style>
   <!-- Load the Twitch embed script -->
   <script src="https://embed.twitch.tv/embed/v1.js"></script>
@@ -108,16 +137,39 @@
 
 <body>
   <!-- Reference: https://dev.twitch.tv/docs/embed/everything/ -->
-  <div id="twitch-embed"></div>
+  <!-- <div id="twitch-embed"></div> -->
+  <div class="twitch">
+    <div class="twitch-video">
+      <iframe
+        src="https://player.twitch.tv/?channel=phasik&parent=phasik.com&parent=www.phasik.com&parent=phasik.tv&parent=www.phasik.tv&parent=phasiktv.tv&parent=www.phasiktv.tv&parent=127.0.0.1&autoplay=false"
+        frameborder="0"
+        scrolling="no"
+        allowfullscreen="true"
+        height="100%"
+        width="100%">
+      </iframe>
+    </div>
+    <div class="twitch-chat">
+      <iframe
+        frameborder="0"
+        scrolling="no"
+        src="https://www.twitch.tv/embed/phasik/chat?parent=phasik.com&parent=www.phasik.com&parent=phasik.tv&parent=www.phasik.tv&parent=phasiktv.tv&parent=www.phasiktv.tv&parent=127.0.0.1"
+        height="100%"
+        width="100%">
+      </iframe>
+    </div>
+  </div>
   <!-- Create a Twitch.Embed object that will render within the "twitch-embed" root element. -->
-  <script type="text/javascript">
+  <!-- <script type="text/javascript">
     const embed = new Twitch.Embed("twitch-embed", {
       width: "100%",
+      height: "50%",
       channel: "phasik",
+      layout: "video",
       // only needed if your site is also embedded on embed.example.com and othersite.example.com
       parent: ["phasik.com", "www.phasik.com", "phasik.tv", "www.phasik.tv", "phasiktv.tv", "www.phasiktv.tv"]
     });
-  </script>
+  </script> -->
 
   <nav id="navlinks">
     <!-- Video Stream Links -->
