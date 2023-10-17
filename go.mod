@@ -1,3 +1,3 @@
-module gitlab.com/snormore/hello
+module gitlab.com/lyraphase/docker-phasik.tv
 
 go 1.13

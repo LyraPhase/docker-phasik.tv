@@ -11,7 +11,7 @@ WORKDIR /app
 # If your app requires the build context to be set to a subdirectory inside the repo, you
 #   can use the source_dir app spec option, see: https://www.digitalocean.com/docs/app-platform/references/app-specification-reference/
 COPY . .
-RUN go build -mod=vendor -o bin/hello
+RUN go build -mod=vendor -o bin/serve
 
 # -- Stage 2 -- #
 # Create the final environment with the compiled binary.
@@ -20,6 +20,6 @@ FROM alpine
 RUN apk --no-cache add ca-certificates
 WORKDIR /root/
 # Copy the binary from the builder stage and set it as the default command.
-COPY --from=builder /app/bin/hello /usr/local/bin/
+COPY --from=builder /app/bin/serve /usr/local/bin/
 ADD static /srv/www
-CMD ["hello"]
+CMD ["serve"]
