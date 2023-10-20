@@ -53,7 +53,11 @@ func response2JSON(status uint16, in_r *io.PipeReader, out_w *io.PipeWriter) {
 	err := json.NewDecoder(in_r).Decode(&(&response).Data)
 	if err != nil && err != io.EOF {
 		fmt.Printf("response2JSON error: %+v\n", err)
-		json_enc.Encode(httpMinimalResponse{Status: http.StatusText(http.StatusInternalServerError), StatusCode: int(http.StatusInternalServerError), Data: []byte(err.Error())})
+		json_enc.Encode(httpMinimalResponse{
+			Status:     http.StatusText(http.StatusInternalServerError),
+			StatusCode: int(http.StatusInternalServerError),
+			Data:       []byte(err.Error()),
+		})
 	}
 
 	json_enc.Encode(&response)
