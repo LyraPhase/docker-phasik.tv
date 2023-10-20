@@ -24,6 +24,8 @@ const startupMessage = `` +
 	`           "-=-------------------------=-"` + "\n" +
 	`		   phasik.tv started!`
 
+// httpMinimalResponse is a struct to hold the minimal amount of data
+// required to send a JSON response
 type httpMinimalResponse struct {
 	Status     string `json:"status"`
 	StatusCode int    `json:"statusCode"`
