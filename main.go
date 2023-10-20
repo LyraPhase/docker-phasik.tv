@@ -80,7 +80,7 @@ func handleJSONResonse(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Printf("%s\n", json_resp) // if success: first thing logged after "-> "
+	fmt.Printf("%s", json_resp) // if success: first thing logged after "-> "
 
 	var resp httpMinimalResponse
 	json.Unmarshal(json_resp, &resp)
