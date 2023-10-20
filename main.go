@@ -96,6 +96,7 @@ func main() {
 		// logger.Printf("json_resp: %s", json_resp)
 
 		// send JSON response
+		w.Header().Set("Content-Type", "application/json; charset=utf-8")
 		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 		fmt.Fprint(w, string(json_resp))
