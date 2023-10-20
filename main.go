@@ -61,6 +61,35 @@ func response2JSON(status uint16, in_r *io.PipeReader, out_w *io.PipeWriter) {
 	// fmt.Printf("response2JSON: %+v\n", response) // TODO: Debug logging
 }
 
+func handleJSONResonse(w http.ResponseWriter, r *http.Request) {
+	json_pipe_r, json_pipe_w := io.Pipe()
+	data_pipe_r, data_pipe_w := io.Pipe()
+
+	data_pipe_w.Close()
+	go response2JSON(http.StatusOK, data_pipe_r, json_pipe_w)
+
+	fmt.Printf("%s %s -> ", r.Method, r.URL.Path) // Always log request first in case it causes error
+
+	json_resp, err := io.ReadAll(json_pipe_r)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("%s\n", json_resp) // if success: first thing logged after "-> "
+
+	var resp httpMinimalResponse
+	json.Unmarshal(json_resp, &resp)
+
+	// TODO: Implement DEBUG logging
+	// TODO: Maybe implement JSON logging for K8s + ELK
+	// fmt.Printf("resp (unmarshalled): %+v\n", resp)
+	// logger.Printf("json_resp: %s", json_resp)
+
+	// send JSON response
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, string(json_resp))
+}
+
 // main is the entrypoint for the phasik.tv server
 func main() {
 	// logger := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime) // TODO: Evaluate stdlib log vs logrus vs zerolog ?
@@ -68,39 +97,8 @@ func main() {
 	fs := http.FileServer(http.Dir("/srv/www"))
 	http.Handle("/", fs)
 
-	http.HandleFunc("/livez", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "%s %s\n", r.Method, r.URL.Path)
-		fmt.Printf("%s %s\n", r.Method, r.URL.Path)
-	})
-	http.HandleFunc("/readyz", func(w http.ResponseWriter, r *http.Request) {
-		json_pipe_r, json_pipe_w := io.Pipe()
-		data_pipe_r, data_pipe_w := io.Pipe()
-
-		data_pipe_w.Close()
-		go response2JSON(http.StatusOK, data_pipe_r, json_pipe_w)
-
-		fmt.Printf("%s %s -> ", r.Method, r.URL.Path) // Always log request first in case it causes error
-
-		json_resp, err := io.ReadAll(json_pipe_r)
-		if err != nil {
-			fmt.Println(err)
-		}
-		fmt.Printf("%s\n", json_resp) // if success: first thing logged after "-> "
-
-		var resp httpMinimalResponse
-		json.Unmarshal(json_resp, &resp)
-
-		// TODO: Implement DEBUG logging
-		// TODO: Maybe implement JSON logging for K8s + ELK
-		// fmt.Printf("resp (unmarshalled): %+v\n", resp)
-		// logger.Printf("json_resp: %s", json_resp)
-
-		// send JSON response
-		w.Header().Set("Content-Type", "application/json; charset=utf-8")
-		w.WriteHeader(http.StatusOK)
-		w.Header().Set("Content-Type", "application/json")
-		fmt.Fprint(w, string(json_resp))
-	})
+	http.HandleFunc("/livez", handleJSONResonse)
+	http.HandleFunc("/readyz", handleJSONResonse)
 
 	port := os.Getenv("PORT")
 	if port == "" {
