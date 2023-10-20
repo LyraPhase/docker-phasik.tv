@@ -8,6 +8,8 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 // Startup message returned to the console when the server starts
