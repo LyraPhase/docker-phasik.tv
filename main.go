@@ -94,8 +94,9 @@ func handleJSONResponse(status uint16, w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Printf("%s", json_resp) // if success: first thing logged after "-> "
 
-	var resp httpMinimalResponse
-	json.Unmarshal(json_resp, &resp)
+	// TODO: Use this, return it, or delete it
+	// var resp httpMinimalResponse
+	// json.Unmarshal(json_resp, &resp)
 
 	// TODO: Implement DEBUG logging
 	// TODO: Maybe implement JSON logging for K8s + ELK
