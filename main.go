@@ -28,6 +28,9 @@ type httpMinimalResponse struct {
 	Data       []byte `json:"data"`
 }
 
+// serveFiles is a helper function to serve static files from the ./static
+// directory.  Allows for special case handling.
+// TODO: Use this or delete it
 func serveFiles(w http.ResponseWriter, r *http.Request) {
 	fmt.Println(r.URL.Path)
 	p := "." + r.URL.Path
@@ -55,12 +58,12 @@ func response2JSON(status uint16, in_r *io.PipeReader, out_w *io.PipeWriter) {
 
 	json_enc.Encode(&response)
 	out_w.Close()
-	fmt.Printf("response2JSON: %+v\n", response)
+	// fmt.Printf("response2JSON: %+v\n", response) // TODO: Debug logging
 }
 
 // main is the entrypoint for the phasik.tv server
 func main() {
-	// logger := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime)
+	// logger := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime) // TODO: Evaluate stdlib log vs logrus vs zerolog ?
 
 	fs := http.FileServer(http.Dir("/srv/www"))
 	http.Handle("/", fs)
@@ -76,21 +79,24 @@ func main() {
 		data_pipe_w.Close()
 		go response2JSON(http.StatusOK, data_pipe_r, json_pipe_w)
 
-		fmt.Printf("%s %s -> ", r.Method, r.URL.Path)
+		fmt.Printf("%s %s -> ", r.Method, r.URL.Path) // Always log request first in case it causes error
 
 		json_resp, err := io.ReadAll(json_pipe_r)
 		if err != nil {
 			fmt.Println(err)
 		}
+		fmt.Printf("%s\n", json_resp) // if success: first thing logged after "-> "
 
 		var resp httpMinimalResponse
 		json.Unmarshal(json_resp, &resp)
 
-		fmt.Printf("resp (unmarshalled): %+v\n", resp)
-		fmt.Printf("json_resp: %s\n", json_resp)
+		// TODO: Implement DEBUG logging
+		// TODO: Maybe implement JSON logging for K8s + ELK
+		// fmt.Printf("resp (unmarshalled): %+v\n", resp)
 		// logger.Printf("json_resp: %s", json_resp)
 
 		// send JSON response
+		w.WriteHeader(http.StatusOK)
 		w.Header().Set("Content-Type", "application/json")
 		fmt.Fprint(w, string(json_resp))
 	})
