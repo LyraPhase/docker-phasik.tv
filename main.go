@@ -115,6 +115,13 @@ func main() {
 	if config_file == "" {
 		config_file = "config.yml"
 	}
+	yaml_config, cfg_err := os.ReadFile(config_file)
+	if cfg_err != nil {
+		panic(cfg_err)
+	}
+	var config map[string]interface{}
+	yaml.Unmarshal(yaml_config, &config)
+	fmt.Printf("Config: %+v\n", config)
 
 	for _, line := range strings.Split(startupMessage, "\n") {
 		fmt.Println(line)
