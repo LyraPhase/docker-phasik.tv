@@ -67,7 +67,17 @@ func response2JSON(status uint16, in_r *io.PipeReader, out_w *io.PipeWriter) {
 	// fmt.Printf("response2JSON: %+v\n", response) // TODO: Debug logging
 }
 
-func handleJSONResonse(w http.ResponseWriter, r *http.Request) {
+// handleJSON200Response is a helper function to handle JSON responses with a 200 OK code
+func handleJSON200Response(w http.ResponseWriter, r *http.Request) {
+	handleJSONResponse(http.StatusOK, w, r)
+}
+
+// handleJSONResponse is a helper function to generate a JSON response from a
+// provided HTTP status code.
+// The response is written to the provided http.ResponseWriter
+// and the request Method & URL.path are gathered and logged from the provided
+// *http.Request
+func handleJSONResponse(status uint16, w http.ResponseWriter, r *http.Request) {
 	json_pipe_r, json_pipe_w := io.Pipe()
 	data_pipe_r, data_pipe_w := io.Pipe()
 
@@ -103,8 +113,8 @@ func main() {
 	fs := http.FileServer(http.Dir("/srv/www"))
 	http.Handle("/", fs)
 
-	http.HandleFunc("/livez", handleJSONResonse)
-	http.HandleFunc("/readyz", handleJSONResonse)
+	http.HandleFunc("/livez", handleJSON200Response)
+	http.HandleFunc("/readyz", handleJSON200Response)
 
 	port := os.Getenv("PORT")
 	if port == "" {
