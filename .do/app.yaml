@@ -1,8 +1,8 @@
-name: docker-phasik.tv
+name: docker-phasik-tv
 services:
 - dockerfile_path: Dockerfile
   github:
     branch: main
     deploy_on_push: true
     repo: lyraphase/docker-phasik.tv
-  name: docker-phasik.tv
+  name: docker-phasik-tv
