@@ -42,4 +42,4 @@ repos:
   rev: v0.0.4
   hooks:
   - id: doctl-app-spec-validate
-    args: [--verbose]
+    args: ['--verbose', '--schema-only']
