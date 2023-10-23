@@ -1,11 +1,11 @@
 spec:
-  name: docker-phasik.tv
+  name: docker-phasik-tv
   services:
   - dockerfile_path: Dockerfile
     git:
       branch: main
       repo_clone_url: https://github.com/lyraphase/docker-phasik.tv.git
-    name: docker-phasik.tv
+    name: docker-phasik-tv
     envs:
     - key: ENVIRONMENT
       value: production
