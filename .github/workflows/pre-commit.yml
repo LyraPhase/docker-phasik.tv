@@ -21,7 +21,7 @@ jobs:
       with:
         python-version: '3.11'
     - name: Install doctl
-      uses: trinitronx/action-doctl@add-no-auth-option-pre-release-fork
+      uses: digitalocean/action-doctl@v2.5.1
       with:
         no_auth: 'true'
     - uses: pre-commit/action@v3.0.0
