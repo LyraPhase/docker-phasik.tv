@@ -24,4 +24,4 @@ jobs:
       uses: digitalocean/action-doctl@v2.5.1
       with:
         no_auth: 'true'
-    - uses: pre-commit/action@v3.0.0
+    - uses: pre-commit/action@v3.0.1
