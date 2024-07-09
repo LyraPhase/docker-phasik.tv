@@ -1,3 +1,4 @@
+# yaml-language-server: $schema=https://json.schemastore.org/yamllint.json
 # Development config file for phasik.tv site templating
 ---
 # Site settings
