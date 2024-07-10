@@ -6,3 +6,8 @@ services:
     deploy_on_push: true
     repo: lyraphase/docker-phasik.tv
   name: docker-phasik-tv
+domains:
+  - domain: "watch.phasik.tv"
+    type: "PRIMARY"
+    wildcard: false
+    minimum_tls_version: "1.3"
