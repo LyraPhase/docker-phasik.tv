@@ -12,6 +12,15 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 2
+
+    - name: Get changed files
+      id: changed-files
+      uses: tj-actions/changed-files@v44
+      with:
+        files: |
+          .do/app.yaml
 
     - id: setup_buildx
       name: Set up Docker Buildx
@@ -43,8 +52,11 @@ jobs:
       id: app_id
       run: echo "APP_ID=$(doctl apps list --no-header --format 'ID,Spec.Name' | grep 'docker-phasik-tv' | awk '{print $1}')" >> $GITHUB_ENV
 
+    - name: Update App Spec if Changed
+      run: doctl apps update '${{ env.APP_ID }}' --spec '${{github.workspace}}/.do/app.yaml'
+      if: steps.changed-files.outputs.any_changed == 'true'
+
     - name: Deploy to DigitalOcean App
-      # run: doctl apps update '${{ env.APP_ID }}' --spec '${{github.workspace}}/.do/app.yaml'
       run: doctl apps create-deployment '${{ env.APP_ID }}' --force-rebuild --wait
 
     # - name: Deploy to DigitalOcean App (no spec update)
