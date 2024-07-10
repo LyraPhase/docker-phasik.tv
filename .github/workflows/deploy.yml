@@ -44,7 +44,8 @@ jobs:
       run: echo "APP_ID=$(doctl apps list --no-header --format 'ID,Spec.Name' | grep 'docker-phasik-tv' | awk '{print $1}')" >> $GITHUB_ENV
 
     - name: Deploy to DigitalOcean App
-      run: doctl apps update '${{ env.APP_ID }}' --spec '${{github.workspace}}/.do/app.yaml'
+      # run: doctl apps update '${{ env.APP_ID }}' --spec '${{github.workspace}}/.do/app.yaml'
+      run: doctl apps create-deployment '${{ env.APP_ID }}' --force-rebuild --wait
 
     # - name: Deploy to DigitalOcean App (no spec update)
     #   run: doctl apps create-deployment '${{ env.APP_ID }}' --wait
