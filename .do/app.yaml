@@ -9,5 +9,5 @@ services:
 domains:
   - domain: "watch.phasik.tv"
     type: "PRIMARY"
-    wildcard: false
+    wildcard: true
     minimum_tls_version: "1.3"
