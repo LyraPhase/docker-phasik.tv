@@ -11,3 +11,4 @@ domains:
     type: "PRIMARY"
     wildcard: true
     minimum_tls_version: "1.3"
+    zone: "phasik.tv"
