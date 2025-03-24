@@ -18,7 +18,7 @@ RUN go build -mod=vendor -o bin/serve
 FROM alpine
 # Install any required dependencies.
 RUN apk --no-cache add ca-certificates
-ENV APPROOT /root
+ENV APPROOT=/root
 WORKDIR ${APPROOT}/
 # Copy the binary from the builder stage and set it as the default command.
 COPY --from=builder /app/bin/serve /usr/local/bin/
